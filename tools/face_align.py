@@ -2,10 +2,9 @@ import os
 import sys
 os.environ['GLOG_minloglevel'] = '3'
 
-ROOT_PTH = os.path.abspath(os.path.join('/home', 'sz'))
+ROOT_PTH = os.path.abspath(os.path.join('/home', getpass.getuser()))
 sys.path.append(ROOT_PTH + '/workspace/py-RFCN-priv/caffe-priv/python')
 sys.path.append(ROOT_PTH + '/workspace/py-RFCN-priv/lib')
-sys.path.append('/home/sz/Project/models/face_models/mtcnn-model')
 
 import caffe
 import cv2
