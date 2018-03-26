@@ -233,27 +233,29 @@ def pil_scale(im, size, interpolation=Image.BILINEAR):
     
 def get_biggest_box(objs):
     s = 0
-    score = 0
-    _box = [0, 0, 0, 0]
+    _score = 0
+    _box = None
     for obj in objs:
         box = obj['bbox']
+        score = obj['bbox_confidence']
         h = box[2] - box[0]
         w = box[3] - box[1]
-        if h*w > s:
-            _box = box
-            score = obj['bbox_confidence']
-        s = h*w
-    
-    return _box, score
+        if score > 0.6:
+            if h * w > s:
+                _box = box
+                _score = score
+                s = h * w
+
+    return _box, _score
 
 
 def box_extend(box):
     box_extended = []
     w = box[2] - box[0]
     h = box[3] - box[1]
-    box_extended.append(max(0, box[0] - w/6))
+    box_extended.append(max(0, box[0] - w/4))
     box_extended.append(max(0, box[1] - h/3))
-    box_extended.append(box[2] + w/6)
-    box_extended.append(box[3] + h/3)
+    box_extended.append(box[2] + w/4)
+    box_extended.append(box[3] + h/4)
 
     return box_extended
